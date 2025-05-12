@@ -1,6 +1,6 @@
 // Spotify API Configuration
 const clientId = 'b1b4276f0ccb4fda85f4e355709cf0e0'; // Replace with your Spotify Client ID
-const redirectUri = window.location.origin + window.location.pathname;
+const redirectUri = 'http://127.0.0.1:5500/index.html' ;
 const scope = 'user-top-read';
 
 // DOM Elements
@@ -14,50 +14,49 @@ const loginButton = document.getElementById('login-button');
 const retryButton = document.getElementById('retry-button');
 const timeButtons = document.querySelectorAll('.time-btn');
 
-// App State
-let currentTimeRange = 'short_term'; // Default: last month
+let currentTimeRange = 'short_term'; 
 
-// Initialize the application
+
 function init() {
-    // Check if returning from Spotify auth
+
     const params = new URLSearchParams(window.location.hash.substring(1));
     const accessToken = params.get('access_token');
     
     if (accessToken) {
-        // Save token and hide hash from URL
+    L
         localStorage.setItem('spotify_access_token', accessToken);
         window.history.replaceState({}, document.title, redirectUri);
         showTracksSection();
         fetchTopTracks(currentTimeRange);
     } else if (localStorage.getItem('spotify_access_token')) {
-        // Use existing token
+    
         showTracksSection();
         fetchTopTracks(currentTimeRange);
     } else {
-        // Show login
+
         showLoginSection();
     }
     
-    // Setup event listeners
+
     setupEventListeners();
 }
 
-// Set up all event listeners
+
 function setupEventListeners() {
     loginButton.addEventListener('click', handleLogin);
     retryButton.addEventListener('click', handleRetry);
     
-    // Time range buttons
+
     timeButtons.forEach(button => {
         button.addEventListener('click', function() {
             if (!this.classList.contains('active')) {
                 currentTimeRange = this.dataset.range;
                 
-                // Update active button
+        
                 timeButtons.forEach(btn => btn.classList.remove('active'));
                 this.classList.add('active');
                 
-                // Fetch new data
+        
                 showLoading();
                 fetchTopTracks(currentTimeRange);
             }
@@ -102,7 +101,7 @@ function generateRandomString(length) {
     return text;
 }
 
-// Fetch top tracks from Spotify API
+
 async function fetchTopTracks(timeRange) {
     try {
         const accessToken = localStorage.getItem('spotify_access_token');
