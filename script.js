@@ -213,18 +213,31 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeDashboard()
   setupTabNavigation()
   populateContent()
+
+  // Initialize Lucide icons after content is loaded
+  setTimeout(() => {
+    lucide.createIcons()
+  }, 100)
 })
 
 function initializeDashboard() {
   // Update progress bar
   const progressPercentage = (programData.currentWeek / programData.totalWeeks) * 100
-  document.getElementById("progress-bar").style.width = `${progressPercentage}%`
+  const progressBar = document.getElementById("progress-bar")
+  if (progressBar) {
+    progressBar.style.width = progressPercentage + "%"
+  }
 
   // Update header information
-  document.getElementById("current-week").textContent = programData.currentWeek
-  document.getElementById("total-weeks").textContent = programData.totalWeeks
-  document.getElementById("next-gate").textContent = programData.nextGate
-  document.getElementById("next-gate-date").textContent = programData.nextGateDate
+  const currentWeekEl = document.getElementById("current-week")
+  const totalWeeksEl = document.getElementById("total-weeks")
+  const nextGateEl = document.getElementById("next-gate")
+  const nextGateDateEl = document.getElementById("next-gate-date")
+
+  if (currentWeekEl) currentWeekEl.textContent = programData.currentWeek
+  if (totalWeeksEl) totalWeeksEl.textContent = programData.totalWeeks
+  if (nextGateEl) nextGateEl.textContent = programData.nextGate
+  if (nextGateDateEl) nextGateDateEl.textContent = programData.nextGateDate
 }
 
 function setupTabNavigation() {
@@ -236,7 +249,9 @@ function setupTabNavigation() {
       const targetTab = button.getAttribute("data-tab")
 
       // Remove active class from all buttons and contents
-      tabButtons.forEach((btn) => btn.classList.remove("active"))
+      tabButtons.forEach((btn) => {
+        btn.classList.remove("active")
+      })
       tabContents.forEach((content) => {
         content.classList.remove("active")
         content.classList.add("hidden")
@@ -244,9 +259,11 @@ function setupTabNavigation() {
 
       // Add active class to clicked button and corresponding content
       button.classList.add("active")
-      const targetContent = document.getElementById(`${targetTab}-tab`)
-      targetContent.classList.add("active")
-      targetContent.classList.remove("hidden")
+      const targetContent = document.getElementById(targetTab + "-tab")
+      if (targetContent) {
+        targetContent.classList.add("active")
+        targetContent.classList.remove("hidden")
+      }
     })
   })
 }
@@ -261,168 +278,213 @@ function populateContent() {
 
 function populateAnnouncements() {
   const container = document.getElementById("announcements-container")
+  if (!container) return
+
   container.innerHTML = announcements
     .map(
-      (announcement) => `
-        <div class="flex items-start gap-4 p-4 border rounded-lg">
-            <div class="status-dot ${announcement.priority} mt-2"></div>
-            <div class="flex-1">
-                <h3 class="font-semibold">${announcement.title}</h3>
-                <p class="text-gray-600 text-sm mt-1">${announcement.content}</p>
-                <p class="text-xs text-gray-400 mt-2">${announcement.date}</p>
-            </div>
-        </div>
-    `,
+      (announcement) =>
+        '<div class="flex items-start gap-4 p-4 border rounded-lg">' +
+        '<div class="status-dot ' +
+        announcement.priority +
+        ' mt-2"></div>' +
+        '<div class="flex-1">' +
+        '<h3 class="font-semibold">' +
+        announcement.title +
+        "</h3>" +
+        '<p class="text-gray-600 text-sm mt-1">' +
+        announcement.content +
+        "</p>" +
+        '<p class="text-xs text-gray-400 mt-2">' +
+        announcement.date +
+        "</p>" +
+        "</div>" +
+        "</div>",
     )
     .join("")
 }
 
 function populateSchedule() {
   const container = document.getElementById("schedule-container")
+  if (!container) return
+
   container.innerHTML = weeklySchedule
     .map(
-      (day) => `
-        <div class="border rounded-lg p-4">
-            <h3 class="font-semibold mb-2">${day.day}</h3>
-            <div class="space-y-2 text-sm">
-                ${day.activities
-                  .map(
-                    (activity) => `
-                    <div class="flex items-center gap-2">
-                        <i data-lucide="${activity.icon}" class="w-4 h-4"></i>
-                        <span>${activity.time} - ${activity.activity}</span>
-                    </div>
-                `,
-                  )
-                  .join("")}
-            </div>
-        </div>
-    `,
+      (day) =>
+        '<div class="border rounded-lg p-4">' +
+        '<h3 class="font-semibold mb-2">' +
+        day.day +
+        "</h3>" +
+        '<div class="space-y-2 text-sm">' +
+        day.activities
+          .map(
+            (activity) =>
+              '<div class="flex items-center gap-2">' +
+              '<i data-lucide="' +
+              activity.icon +
+              '" class="w-4 h-4"></i>' +
+              "<span>" +
+              activity.time +
+              " - " +
+              activity.activity +
+              "</span>" +
+              "</div>",
+          )
+          .join("") +
+        "</div>" +
+        "</div>",
     )
     .join("")
-
-  // Re-initialize Lucide icons for the new content
-  lucide.createIcons()
 }
 
 function populateCompanyVisits() {
   const container = document.getElementById("companies-container")
+  if (!container) return
+
   container.innerHTML = companyVisits
     .map(
-      (visit) => `
-        <div class="flex items-center gap-4 p-4 border rounded-lg">
-            <div class="company-avatar">
-                ${visit.company.charAt(0)}
-            </div>
-            <div class="flex-1">
-                <div class="flex items-center gap-2 mb-1">
-                    <h3 class="font-semibold">${visit.company}</h3>
-                    <span class="badge ${visit.status === "completed" ? "secondary" : "default"}">${visit.status}</span>
-                </div>
-                <p class="text-sm text-gray-600 mb-1">${visit.topic}</p>
-                <p class="text-xs text-gray-500">${visit.speaker}</p>
-            </div>
-            <div class="text-right">
-                <p class="font-semibold">${visit.date}</p>
-                <p class="text-sm text-gray-600">${visit.time}</p>
-            </div>
-            <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
-        </div>
-    `,
+      (visit) =>
+        '<div class="flex items-center gap-4 p-4 border rounded-lg">' +
+        '<div class="company-avatar">' +
+        visit.company.charAt(0) +
+        "</div>" +
+        '<div class="flex-1">' +
+        '<div class="flex items-center gap-2 mb-1">' +
+        '<h3 class="font-semibold">' +
+        visit.company +
+        "</h3>" +
+        '<span class="badge ' +
+        (visit.status === "completed" ? "secondary" : "default") +
+        '">' +
+        visit.status +
+        "</span>" +
+        "</div>" +
+        '<p class="text-sm text-gray-600 mb-1">' +
+        visit.topic +
+        "</p>" +
+        '<p class="text-xs text-gray-500">' +
+        visit.speaker +
+        "</p>" +
+        "</div>" +
+        '<div class="text-right">' +
+        '<p class="font-semibold">' +
+        visit.date +
+        "</p>" +
+        '<p class="text-sm text-gray-600">' +
+        visit.time +
+        "</p>" +
+        "</div>" +
+        '<i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>' +
+        "</div>",
     )
     .join("")
-
-  lucide.createIcons()
 }
 
 function populateLearningPath() {
   const container = document.getElementById("learning-container")
+  if (!container) return
+
   container.innerHTML = learningChapters
-    .map(
-      (chapter) => `
-        <div class="border rounded-lg p-4">
-            <div class="flex items-center justify-between mb-3">
-                <div class="flex items-center gap-3">
-                    <div class="chapter-number ${chapter.status}">
-                        ${chapter.id}
-                    </div>
-                    <div>
-                        <h3 class="font-semibold">${chapter.title}</h3>
-                        <p class="text-sm text-gray-600">${chapter.duration} • ${chapter.gate}</p>
-                    </div>
-                </div>
-                <span class="badge ${chapter.status === "completed" ? "secondary" : chapter.status === "in-progress" ? "default" : "outline"}">${chapter.status}</span>
-            </div>
-            ${
-              chapter.status === "in-progress"
-                ? `
-                <div class="mb-3">
-                    <div class="flex justify-between text-sm mb-1">
-                        <span>Progress</span>
-                        <span>${chapter.progress}%</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: ${chapter.progress}%"></div>
-                    </div>
-                </div>
-            `
-                : ""
-            }
-            <div class="flex flex-wrap gap-2">
-                ${chapter.resources
-                  .map(
-                    (resource) => `
-                    <span class="badge outline">${resource}</span>
-                `,
-                  )
-                  .join("")}
-            </div>
-        </div>
-    `,
-    )
+    .map((chapter) => {
+      var progressSection = ""
+      if (chapter.status === "in-progress") {
+        progressSection =
+          '<div class="mb-3">' +
+          '<div class="flex justify-between text-sm mb-1">' +
+          "<span>Progress</span>" +
+          "<span>" +
+          chapter.progress +
+          "%</span>" +
+          "</div>" +
+          '<div class="progress-bar">' +
+          '<div class="progress-fill" style="width: ' +
+          chapter.progress +
+          '%"></div>' +
+          "</div>" +
+          "</div>"
+      }
+
+      return (
+        '<div class="border rounded-lg p-4">' +
+        '<div class="flex items-center justify-between mb-3">' +
+        '<div class="flex items-center gap-3">' +
+        '<div class="chapter-number ' +
+        chapter.status +
+        '">' +
+        chapter.id +
+        "</div>" +
+        "<div>" +
+        '<h3 class="font-semibold">' +
+        chapter.title +
+        "</h3>" +
+        '<p class="text-sm text-gray-600">' +
+        chapter.duration +
+        " • " +
+        chapter.gate +
+        "</p>" +
+        "</div>" +
+        "</div>" +
+        '<span class="badge ' +
+        (chapter.status === "completed" ? "secondary" : chapter.status === "in-progress" ? "default" : "outline") +
+        '">' +
+        chapter.status +
+        "</span>" +
+        "</div>" +
+        progressSection +
+        '<div class="flex flex-wrap gap-2">' +
+        chapter.resources.map((resource) => '<span class="badge outline">' + resource + "</span>").join("") +
+        "</div>" +
+        "</div>"
+      )
+    })
     .join("")
 }
 
 function populateGates() {
   const container = document.getElementById("gates-container")
+  if (!container) return
+
   container.innerHTML = gates
-    .map(
-      (gate) => `
-        <div class="border rounded-lg p-4">
-            <div class="flex items-center justify-between mb-3">
-                <h3 class="font-semibold">${gate.name}</h3>
-                <span class="badge ${gate.status === "passed" ? "secondary" : "outline"}">${gate.status}</span>
-            </div>
-            <div class="space-y-2">
-                <div class="flex justify-between text-sm">
-                    <span>Date:</span>
-                    <span>${gate.date}</span>
-                </div>
-                ${
-                  gate.score
-                    ? `
-                    <div class="flex justify-between text-sm">
-                        <span>Score:</span>
-                        <span class="font-semibold text-green-600">${gate.score}</span>
-                    </div>
-                `
-                    : ""
-                }
-                <div class="mt-3">
-                    <p class="text-sm font-medium mb-2">Topics Covered:</p>
-                    <div class="flex flex-wrap gap-1">
-                        ${gate.topics
-                          .map(
-                            (topic) => `
-                            <span class="badge outline">${topic}</span>
-                        `,
-                          )
-                          .join("")}
-                    </div>
-                </div>
-            </div>
-        </div>
-    `,
-    )
+    .map((gate) => {
+      var scoreSection = ""
+      if (gate.score) {
+        scoreSection =
+          '<div class="flex justify-between text-sm">' +
+          "<span>Score:</span>" +
+          '<span class="font-semibold text-green-600">' +
+          gate.score +
+          "</span>" +
+          "</div>"
+      }
+
+      return (
+        '<div class="border rounded-lg p-4">' +
+        '<div class="flex items-center justify-between mb-3">' +
+        '<h3 class="font-semibold">' +
+        gate.name +
+        "</h3>" +
+        '<span class="badge ' +
+        (gate.status === "passed" ? "secondary" : "outline") +
+        '">' +
+        gate.status +
+        "</span>" +
+        "</div>" +
+        '<div class="space-y-2">' +
+        '<div class="flex justify-between text-sm">' +
+        "<span>Date:</span>" +
+        "<span>" +
+        gate.date +
+        "</span>" +
+        "</div>" +
+        scoreSection +
+        '<div class="mt-3">' +
+        '<p class="text-sm font-medium mb-2">Topics Covered:</p>' +
+        '<div class="flex flex-wrap gap-1">' +
+        gate.topics.map((topic) => '<span class="badge outline">' + topic + "</span>").join("") +
+        "</div>" +
+        "</div>" +
+        "</div>" +
+        "</div>"
+      )
+    })
     .join("")
 }
