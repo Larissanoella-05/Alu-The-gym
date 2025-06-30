@@ -1,93 +1,136 @@
 /* Custom styles for the dashboard */
 .tab-button {
-  @apply text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300 transition-colors duration-200;
+  color: #6b7280;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.tab-button:hover {
+  color: #374151;
+  border-bottom-color: #d1d5db;
 }
 
 .tab-button.active {
-  @apply text-blue-600 border-blue-600;
+  color: #2563eb;
+  border-bottom-color: #2563eb;
 }
 
 .tab-content {
-  @apply transition-opacity duration-200;
+  transition: opacity 0.2s;
 }
 
 .tab-content.hidden {
-  @apply opacity-0 pointer-events-none absolute;
+  display: none;
 }
 
 .tab-content.active {
-  @apply opacity-100 relative;
+  display: block;
 }
 
 .status-dot {
-  @apply w-3 h-3 rounded-full;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .status-dot.high {
-  @apply bg-red-500;
+  background-color: #ef4444;
 }
 
 .status-dot.medium {
-  @apply bg-yellow-500;
+  background-color: #eab308;
 }
 
 .status-dot.low {
-  @apply bg-blue-500;
+  background-color: #3b82f6;
 }
 
 .status-dot.completed,
 .status-dot.passed {
-  @apply bg-green-500;
+  background-color: #22c55e;
 }
 
 .status-dot.in-progress {
-  @apply bg-blue-500;
+  background-color: #3b82f6;
 }
 
 .status-dot.upcoming {
-  @apply bg-gray-400;
+  background-color: #9ca3af;
 }
 
 .badge {
-  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 500;
 }
 
 .badge.default {
-  @apply bg-blue-100 text-blue-800;
+  background-color: #dbeafe;
+  color: #1e40af;
 }
 
 .badge.secondary {
-  @apply bg-gray-100 text-gray-800;
+  background-color: #f3f4f6;
+  color: #1f2937;
 }
 
 .badge.outline {
-  @apply bg-transparent border border-gray-300 text-gray-700;
+  background-color: transparent;
+  border: 1px solid #d1d5db;
+  color: #374151;
 }
 
 .progress-bar {
-  @apply bg-gray-200 rounded-full h-2 overflow-hidden;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  height: 8px;
+  overflow: hidden;
 }
 
 .progress-fill {
-  @apply bg-blue-600 h-full transition-all duration-300 ease-out;
+  background-color: #2563eb;
+  height: 100%;
+  transition: width 0.3s ease-out;
 }
 
 .chapter-number {
-  @apply w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  flex-shrink: 0;
 }
 
 .chapter-number.completed {
-  @apply bg-green-500;
+  background-color: #22c55e;
 }
 
 .chapter-number.in-progress {
-  @apply bg-blue-500;
+  background-color: #3b82f6;
 }
 
 .chapter-number.upcoming {
-  @apply bg-gray-400;
+  background-color: #9ca3af;
 }
 
 .company-avatar {
-  @apply w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center text-white font-bold;
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  flex-shrink: 0;
 }
