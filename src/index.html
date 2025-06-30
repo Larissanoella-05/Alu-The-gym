@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Gym - Intensive Software Program</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="min-h-screen bg-gray-50">
+    <div class="p-4 md:p-6">
+        <div class="max-w-7xl mx-auto space-y-6">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg p-6">
+                <h1 class="text-3xl font-bold mb-2">The Gym - Intensive Software Program</h1>
+                <p class="text-blue-100 mb-4">Your journey to becoming a world-class software engineer</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-white/10 rounded-lg p-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i data-lucide="calendar" class="w-5 h-5"></i>
+                            <span class="font-semibold">Current Progress</span>
+                        </div>
+                        <p class="text-2xl font-bold">Week <span id="current-week">8</span>/<span id="total-weeks">16</span></p>
+                        <div class="mt-2 bg-white/20 rounded-full h-2">
+                            <div id="progress-bar" class="bg-white rounded-full h-2 transition-all duration-300" style="width: 50%"></div>
+                        </div>
+                    </div>
+                    <div class="bg-white/10 rounded-lg p-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i data-lucide="trophy" class="w-5 h-5"></i>
+                            <span class="font-semibold">Next Gate</span>
+                        </div>
+                        <p class="text-lg font-bold" id="next-gate">Gate 3: Full-Stack Development</p>
+                        <p class="text-sm text-blue-100" id="next-gate-date">2024-02-15</p>
+                    </div>
+                    <div class="bg-white/10 rounded-lg p-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i data-lucide="users" class="w-5 h-5"></i>
+                            <span class="font-semibold">Cohort Status</span>
+                        </div>
+                        <p class="text-2xl font-bold">Active</p>
+                        <p class="text-sm text-blue-100">85 participants</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Announcements -->
+            <div class="bg-white rounded-lg shadow-sm border">
+                <div class="p-6 border-b">
+                    <h2 class="text-xl font-semibold flex items-center gap-2">
+                        <i data-lucide="bell" class="w-5 h-5"></i>
+                        Latest Announcements
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <div id="announcements-container" class="space-y-4">
+                        <!-- Announcements will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Tabs -->
+            <div class="bg-white rounded-lg shadow-sm border">
+                <div class="border-b">
+                    <nav class="flex space-x-8 px-6" role="tablist">
+                        <button class="tab-button active py-4 px-1 border-b-2 font-medium text-sm" data-tab="schedule">
+                            Schedule
+                        </button>
+                        <button class="tab-button py-4 px-1 border-b-2 font-medium text-sm" data-tab="companies">
+                            Company Visits
+                        </button>
+                        <button class="tab-button py-4 px-1 border-b-2 font-medium text-sm" data-tab="learning">
+                            Learning Path
+                        </button>
+                        <button class="tab-button py-4 px-1 border-b-2 font-medium text-sm" data-tab="gates">
+                            Gates & Exams
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="p-6">
+                    <!-- Schedule Tab -->
+                    <div id="schedule-tab" class="tab-content active">
+                        <div class="mb-4">
+                            <h3 class="text-lg font-semibold">Weekly Schedule</h3>
+                            <p class="text-gray-600">Current week activities and upcoming events</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="schedule-container">
+                            <!-- Schedule will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Company Visits Tab -->
+                    <div id="companies-tab" class="tab-content hidden">
+                        <div class="mb-4">
+                            <h3 class="text-lg font-semibold">Company Visits & Tech Talks</h3>
+                            <p class="text-gray-600">Industry experts sharing insights and best practices</p>
+                        </div>
+                        <div id="companies-container" class="space-y-4">
+                            <!-- Company visits will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Learning Path Tab -->
+                    <div id="learning-tab" class="tab-content hidden">
+                        <div class="mb-4">
+                            <h3 class="text-lg font-semibold">Learning Path & Resources</h3>
+                            <p class="text-gray-600">Structured curriculum with chapters, durations, and resources</p>
+                        </div>
+                        <div id="learning-container" class="space-y-4">
+                            <!-- Learning chapters will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Gates Tab -->
+                    <div id="gates-tab" class="tab-content hidden">
+                        <div class="mb-4">
+                            <h3 class="text-lg font-semibold">Gates & Examinations</h3>
+                            <p class="text-gray-600">Assessment milestones and performance tracking</p>
+                        </div>
+                        <div id="gates-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Gates will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
