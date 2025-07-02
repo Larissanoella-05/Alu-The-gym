@@ -1,4 +1,4 @@
-export default function ProgressTracker() {
+export default function ProgressTracker({ darkMode }) {
   const progressData = [
     { name: 'JS Fundamentals', value: 100 },
     { name: 'DOM Manipulation', value: 100 },
@@ -20,20 +20,30 @@ export default function ProgressTracker() {
   ];
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <h2 className="text-xl font-bold text-gray-800 mb-6">Your Progress</h2>
-      <div className="space-y-4">
+    <div className={`rounded-lg shadow p-6 transition-colors duration-300 ${
+      darkMode ? 'bg-gray-700' : 'bg-white'
+    }`}>
+      <h2 className={`text-xl font-bold mb-6 ${
+        darkMode ? 'text-beige-200' : 'text-gray-800'
+      }`}>Your Progress</h2>
+      
+      <div className="space-y-4 mb-8">
         {progressData.map((item, index) => (
           <div key={index}>
-            <div className="flex justify-between text-sm font-medium text-gray-700 mb-1">
-              <span>{item.name}</span>
-              <span>{item.value}%</span>
+            <div className="flex justify-between text-sm font-medium mb-1">
+              <span className={darkMode ? 'text-gray-200' : 'text-gray-700'}>
+                {item.name}
+              </span>
+              <span className={darkMode ? 'text-beige-300' : 'text-gray-800'}>
+                {item.value}%
+              </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2.5">
               <div
                 className={`h-2.5 rounded-full ${
-                  item.value === 100 ? 'bg-green-600' :
-                  item.value > 0 ? 'bg-blue-600' : 'bg-gray-300'
+                  item.value === 100 ? 'bg-green-500' :
+                  item.value > 0 ? 'bg-blue-500' : 
+                  darkMode ? 'bg-gray-500' : 'bg-gray-300'
                 }`}
                 style={{ width: `${item.value}%` }}
               ></div>
@@ -42,15 +52,25 @@ export default function ProgressTracker() {
         ))}
       </div>
       
-      <div className="mt-8">
-        <h3 className="font-medium text-gray-900 mb-3">Upcoming Chapters</h3>
-        <ul className="space-y-2">
+      <div>
+        <h3 className={`font-medium text-lg mb-3 ${
+          darkMode ? 'text-beige-200' : 'text-gray-800'
+        }`}>
+          Upcoming Chapters
+        </h3>
+        <ul className="space-y-3">
           {upcomingChapters.map((chapter, index) => (
             <li key={index} className="flex items-center">
-              <span className={`inline-block w-2 h-2 rounded-full mr-2 ${
-                index === 0 ? 'bg-blue-500' : 'bg-gray-400'
+              <span className={`inline-block w-3 h-3 rounded-full mr-3 ${
+                index === 0 ? 'bg-blue-500' : 'bg-beige-500'
               }`}></span>
-              <span className="text-sm">{chapter}</span>
+              <span className={`font-medium ${
+                darkMode ? 
+                  index === 0 ? 'text-blue-300' : 'text-beige-200' : 
+                  index === 0 ? 'text-blue-600' : 'text-gray-700'
+              }`}>
+                {chapter}
+              </span>
             </li>
           ))}
         </ul>

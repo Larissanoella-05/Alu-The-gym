@@ -25,7 +25,7 @@ export default function LearningResources() {
           type: 'YouTube Tutorial', 
           link: 'https://youtu.be/0ik6X4DJKCc',
           format: 'video',
-          hours: 1.5
+          hours: 1.5,
         },
         {
           name: 'Git/GitHub Crash Course - FreeCodeCamp',
@@ -107,7 +107,7 @@ export default function LearningResources() {
           hours: 2
         },
         {
-          name: 'You Don't Know JS: Async & Performance',
+          name: "You Don't Know JS: Async & Performance",
           type: 'Book',
           link: 'https://github.com/getify/You-Dont-Know-JS/blob/1st-ed/async%20&%20performance/README.md',
           format: 'reading',
