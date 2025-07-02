@@ -1,34 +1,62 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Navbar from './components/Navbar'
+import CompanyVisits from './components/CompanyVisits'
+import LearningResources from './components/LearningResources'
+import GatesSchedule from './components/GatesSchedule'
+import Announcements from './components/Announcements'
+import ProgressTracker from './components/ProgressTracker'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [activeTab, setActiveTab] = useState('schedule')
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="min-h-screen bg-gray-100">
+      <Navbar />
+      
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex mb-6 border-b border-gray-200">
+          <button
+            onClick={() => setActiveTab('schedule')}
+            className={`px-4 py-2 font-medium ${activeTab === 'schedule' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500'}`}
+          >
+            Schedule
+          </button>
+          <button
+            onClick={() => setActiveTab('resources')}
+            className={`px-4 py-2 font-medium ${activeTab === 'resources' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500'}`}
+          >
+            Learning Resources
+          </button>
+          <button
+            onClick={() => setActiveTab('gates')}
+            className={`px-4 py-2 font-medium ${activeTab === 'gates' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500'}`}
+          >
+            Gates
+          </button>
+          <button
+            onClick={() => setActiveTab('announcements')}
+            className={`px-4 py-2 font-medium ${activeTab === 'announcements' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500'}`}
+          >
+            Announcements
+          </button>
+        </div>
+
+        {activeTab === 'schedule' && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              <CompanyVisits />
+            </div>
+            <div>
+              <ProgressTracker />
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'resources' && <LearningResources />}
+        {activeTab === 'gates' && <GatesSchedule />}
+        {activeTab === 'announcements' && <Announcements />}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 
